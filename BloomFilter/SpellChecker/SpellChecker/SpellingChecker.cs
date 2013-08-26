@@ -6,7 +6,7 @@ namespace SpellChecker
 {
     public class SpellingChecker : ISpellingChecker
     {
-        private const int FillFactor = 16;
+        private const int FillFactor = 64;
         private readonly BitArray _bits;
         private readonly int _hashCount;
 
@@ -60,7 +60,7 @@ namespace SpellChecker
         {
             unchecked
             {
-                return Math.Abs(word.GetHashCode() * Primes[hashId]) % _bits.Count;
+                return Math.Abs(word.ToLowerInvariant().GetHashCode() * Primes[hashId]) % _bits.Count;
             }
         }
 

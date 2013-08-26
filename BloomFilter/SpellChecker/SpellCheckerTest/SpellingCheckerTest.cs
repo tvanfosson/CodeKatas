@@ -11,7 +11,7 @@ namespace SpellCheckerTest
     [TestClass]
     public class SpellingCheckerTest
     {
-        private const int FillFactor = 16;
+        private const int FillFactor = 64;
 
         private static readonly int[] Primes = 
         {
@@ -136,6 +136,20 @@ namespace SpellCheckerTest
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word);
+
+            Assert.IsTrue(spellingChecker.Check(word));
+        }
+
+        [TestMethod]
+        public void When_a_word_is_added_check_returns_true_for_that_word_regardless_of_casing()
+        {
+            const int wordCount = 32;
+            const int hashCount = 4;
+            const string word = "word";
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            spellingChecker.Add(word.ToUpper());
 
             Assert.IsTrue(spellingChecker.Check(word));
         }
