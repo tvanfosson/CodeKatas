@@ -11,6 +11,8 @@ namespace SpellCheckerTest
     [TestClass]
     public class SpellingCheckerTest
     {
+        private const int FillFactor = 16;
+
         private static readonly int[] Primes = 
         {
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
@@ -41,7 +43,7 @@ namespace SpellCheckerTest
             const int wordCount = 32;
             const int hashCount = 4;
 
-            const int expectedSize = 32 * 4 * 4;
+            const int expectedSize = wordCount * hashCount * FillFactor;
 
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
@@ -51,12 +53,27 @@ namespace SpellCheckerTest
         }
 
         [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_word_count_not_a_power_of_two()
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_words()
         {
             const int wordCount = 33;
             const int hashCount = 4;
 
-            const int expectedSize = 64 * 4 * 4;
+            const int expectedSize = wordCount * hashCount * FillFactor;
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            var bitArray = GetBitArray(spellingChecker);
+
+            Assert.AreEqual(expectedSize, bitArray.Count);
+        }
+
+        [TestMethod]
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_hashes()
+        {
+            const int wordCount = 32;
+            const int hashCount = 6;
+
+            const int expectedSize = wordCount * hashCount * FillFactor;
 
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
@@ -88,7 +105,7 @@ namespace SpellCheckerTest
         {
             const int wordCount = 32;
             const int hashCount = 4;
-            const int bitArraySize = 32 * 4 * 4;
+            const int bitArraySize = wordCount * hashCount * FillFactor;
             const string word = "word";
 
             var indexes = new int[hashCount];

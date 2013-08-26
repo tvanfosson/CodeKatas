@@ -6,6 +6,7 @@ namespace SpellChecker
 {
     public class SpellingChecker : ISpellingChecker
     {
+        private const int FillFactor = 16;
         private readonly BitArray _bits;
         private readonly int _hashCount;
 
@@ -65,8 +66,7 @@ namespace SpellChecker
 
         private static int ComputeBitArraySize(int wordCount, int hashCount)
         {
-            var leftMostBit = (int)Math.Ceiling(Math.Log(wordCount, 2)) + 2;
-            return (1 << leftMostBit) * hashCount;
+            return wordCount * hashCount * FillFactor;
         }
     }
 }
