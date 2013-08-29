@@ -17,7 +17,7 @@ namespace SpellChecker
         static void Main(string[] args)
         {
             const string wordListPath = "wordlist.txt";
-            const int hashes = 29;
+            const int hashes = 5;
 
             var wordCount = CountWords(wordListPath);
             var spellchecker = new SpellingChecker(wordCount, hashes);
