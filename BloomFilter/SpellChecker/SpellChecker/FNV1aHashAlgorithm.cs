@@ -3,6 +3,9 @@
 namespace SpellChecker
 {
     // ReSharper disable once InconsistentNaming
+    /// <summary>
+    /// Fowler Noll Vo (FNV1a) hash algorithm, http://www.isthe.com/chongo/tech/comp/fnv/
+    /// </summary>
     public class FNV1aHashAlgorithm : IHashAlgorithm
     {
         private const uint FnvBasis = 2166136261U;
