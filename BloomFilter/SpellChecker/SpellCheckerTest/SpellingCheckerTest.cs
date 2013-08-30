@@ -162,10 +162,10 @@ namespace SpellCheckerTest
         }
 
         [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_hashes()
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly()
         {
             const int wordCount = 32;
-            const int hashCount = 6;
+            const int hashCount = 4;
 
             const int expectedSize = wordCount * hashCount * FillFactor;
 
@@ -192,10 +192,10 @@ namespace SpellCheckerTest
         }
 
         [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_word_count_a_power_of_two()
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_hashes()
         {
             const int wordCount = 32;
-            const int hashCount = 4;
+            const int hashCount = 6;
 
             const int expectedSize = wordCount * hashCount * FillFactor;
 
