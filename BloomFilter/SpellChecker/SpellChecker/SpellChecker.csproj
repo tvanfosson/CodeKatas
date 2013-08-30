@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FNV1aHashAlgorithm.cs" />
+    <Compile Include="IHashAlgorithm.cs" />
     <Compile Include="ISpellingChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

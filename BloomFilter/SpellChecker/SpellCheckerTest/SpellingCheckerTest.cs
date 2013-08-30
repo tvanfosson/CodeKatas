@@ -14,39 +14,36 @@ namespace SpellCheckerTest
     public class SpellingCheckerTest
     {
         private const int FillFactor = 16;
-
-        private static uint ComputeHash(IEnumerable<byte> bytes)
-        {
-            const uint fnvBasis = 2166136261U;
-            const uint fnvPrime = 16777619U;
-
-            var hash = fnvBasis;
-            foreach (var c in bytes)
-            {
-                hash = hash ^ c;
-                hash = hash * fnvPrime;
-            }
-
-            return hash;
-        }
+        private IHashAlgorithm _hashAlgorithm;
 
         private int ComputeHash(int size, string word, int hashId)
         {
             unchecked
             {
                 var bytes = word.SelectMany(c => Encoding.UTF8.GetBytes(new[] { char.ToLowerInvariant(c) }).Concat(BitConverter.GetBytes(hashId)));
-                var hash = ComputeHash(bytes);
+                var hash = _hashAlgorithm.ComputeHash(bytes);
                 return (int)(hash % size);
             }
         }
 
-        private static BitArray GetBitArray(SpellingChecker spellingChecker)
+        private static BitArray GetBitArray(ISpellingChecker spellingChecker)
         {
             var field = typeof(SpellingChecker).GetField("_bits", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Contract.Assert(field != null);
 
             return field.GetValue(spellingChecker) as BitArray;
+        }
+
+        private ISpellingChecker CreateSpellingChecker(int wordCount, int hashCount)
+        {
+            return new SpellingChecker(_hashAlgorithm, wordCount, hashCount);
+        }
+
+        [TestInitialize]
+        public void Init()
+        {
+            _hashAlgorithm = new FNV1aHashAlgorithm();
         }
 
         [TestMethod]
@@ -56,7 +53,7 @@ namespace SpellCheckerTest
             const int hashCount = 4;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word);
 
@@ -70,7 +67,7 @@ namespace SpellCheckerTest
             const int hashCount = 4;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word);
 
@@ -84,7 +81,7 @@ namespace SpellCheckerTest
             const int hashCount = 4;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word.ToUpper());
 
@@ -98,7 +95,7 @@ namespace SpellCheckerTest
             const int hashCount = 4;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word);
 
@@ -123,7 +120,7 @@ namespace SpellCheckerTest
                 indexes[i] = ComputeHash(bitArraySize, word, i);
             }
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             spellingChecker.Add(word);
 
@@ -142,7 +139,7 @@ namespace SpellCheckerTest
             const int hashCount = 4;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             Assert.IsFalse(spellingChecker.Check(word));
         }
@@ -154,7 +151,7 @@ namespace SpellCheckerTest
             const int hashCount = 1;
             const string word = "word";
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             for (int c = 'a'; c < 'z'; ++c)
             {
@@ -172,7 +169,7 @@ namespace SpellCheckerTest
 
             const int expectedSize = wordCount * hashCount * FillFactor;
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             var bitArray = GetBitArray(spellingChecker);
 
@@ -187,7 +184,7 @@ namespace SpellCheckerTest
 
             const int expectedSize = wordCount * hashCount * FillFactor;
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             var bitArray = GetBitArray(spellingChecker);
 
@@ -202,7 +199,7 @@ namespace SpellCheckerTest
 
             const int expectedSize = wordCount * hashCount * FillFactor;
 
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+            var spellingChecker = CreateSpellingChecker(wordCount, hashCount);
 
             var bitArray = GetBitArray(spellingChecker);
 

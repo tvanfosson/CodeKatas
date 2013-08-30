@@ -20,7 +20,7 @@ namespace SpellChecker
             const int hashes = 5;
 
             var wordCount = CountWords(wordListPath);
-            var spellchecker = new SpellingChecker(wordCount, hashes);
+            var spellchecker = new SpellingChecker(new FNV1aHashAlgorithm(), wordCount, hashes);
 
             var fiveLetterWords = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
             using (var reader = new StreamReader(wordListPath))
