@@ -1,24 +1,17 @@
-﻿using System.Collections;
-using System.Diagnostics.Contracts;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace SpellChecker
 {
     public class SpellingChecker : ISpellingChecker
     {
         private const int FillFactor = 16;
-        private const int InitialPrime = 17;
-
-        private static readonly int[] Primes =
-        {
-            31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
-            73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
-            127, 131, 137, 139, 149, 151, 157, 163, 167, 173
-        };
 
         private readonly BitArray _bits;
         private readonly int _hashCount;
-
 
         /// <summary>
         ///     Create a spelling checker large enough to handle the given number of words,
@@ -28,8 +21,6 @@ namespace SpellChecker
         /// <param name="hashCount"></param>
         public SpellingChecker(int wordCount, int hashCount)
         {
-            Contract.Assert(hashCount < Primes.Length);
-
             _bits = new BitArray(ComputeBitArraySize(wordCount, hashCount));
 
             _hashCount = hashCount;
@@ -59,17 +50,34 @@ namespace SpellChecker
 
         private static int ComputeBitArraySize(int wordCount, int hashCount)
         {
-            return wordCount*hashCount*FillFactor;
+            return wordCount * hashCount * FillFactor;
+        }
+
+        private static uint ComputeHash(IEnumerable<byte> bytes)
+        {
+            const uint fnvBasis = 2166136261U;
+            const uint fnvPrime = 16777619U;
+
+            var hash = fnvBasis;
+            foreach (var c in bytes)
+            {
+                hash = hash ^ c;
+                hash = hash * fnvPrime;
+            }
+
+            return hash;
         }
 
         private int ComputeHash(string word, int hashId)
         {
             unchecked
             {
-                var hash = word.Aggregate(InitialPrime,
-                    (current, c) => current*Primes[hashId] + char.ToLowerInvariant(c).GetHashCode());
+                var bytes = word.SelectMany(c => Encoding.UTF8.GetBytes(new[] { char.ToLowerInvariant(c) })
+                                .Concat(BitConverter.GetBytes(hashId)));
 
-                return (int) ((uint) hash%_bits.Count);
+                var hash = ComputeHash(bytes);
+
+                return (int)(hash % _bits.Count);
             }
         }
     }

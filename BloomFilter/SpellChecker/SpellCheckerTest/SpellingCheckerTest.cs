@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpellChecker;
 
@@ -11,14 +14,31 @@ namespace SpellCheckerTest
     public class SpellingCheckerTest
     {
         private const int FillFactor = 16;
-        private const int InitialPrime = 17;
 
-        private static readonly int[] Primes = 
+        private static uint ComputeHash(IEnumerable<byte> bytes)
         {
-            31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
-            73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
-            127, 131, 137, 139, 149, 151, 157, 163, 167, 173
-        };
+            const uint fnvBasis = 2166136261U;
+            const uint fnvPrime = 16777619U;
+
+            var hash = fnvBasis;
+            foreach (var c in bytes)
+            {
+                hash = hash ^ c;
+                hash = hash * fnvPrime;
+            }
+
+            return hash;
+        }
+
+        private int ComputeHash(int size, string word, int hashId)
+        {
+            unchecked
+            {
+                var bytes = word.SelectMany(c => Encoding.UTF8.GetBytes(new[] { char.ToLowerInvariant(c) }).Concat(BitConverter.GetBytes(hashId)));
+                var hash = ComputeHash(bytes);
+                return (int)(hash % size);
+            }
+        }
 
         private static BitArray GetBitArray(SpellingChecker spellingChecker)
         {
@@ -29,59 +49,46 @@ namespace SpellCheckerTest
             return field.GetValue(spellingChecker) as BitArray;
         }
 
-        private static int ComputeHash(int size, string word, int hashId)
-        {
-            unchecked
-            {
-                var hash =  word.Aggregate(InitialPrime, (current, c) => current * Primes[hashId] + char.ToLowerInvariant(c).GetHashCode());
-
-                return (int)((uint)hash % size);
-            }
-        }
-
         [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_word_count_a_power_of_two()
+        public void When_a_word_is_added_check_returns_false_for_a_different_word()
         {
             const int wordCount = 32;
             const int hashCount = 4;
-
-            const int expectedSize = wordCount * hashCount * FillFactor;
-
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
-
-            var bitArray = GetBitArray(spellingChecker);
-
-            Assert.AreEqual(expectedSize, bitArray.Count);
-        }
-
-        [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_words()
-        {
-            const int wordCount = 33;
-            const int hashCount = 4;
-
-            const int expectedSize = wordCount * hashCount * FillFactor;
+            const string word = "word";
 
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
-            var bitArray = GetBitArray(spellingChecker);
+            spellingChecker.Add(word);
 
-            Assert.AreEqual(expectedSize, bitArray.Count);
+            Assert.IsFalse(spellingChecker.Check(word + "a"));
         }
 
         [TestMethod]
-        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_hashes()
+        public void When_a_word_is_added_check_returns_true_for_that_word()
         {
             const int wordCount = 32;
-            const int hashCount = 6;
-
-            const int expectedSize = wordCount * hashCount * FillFactor;
+            const int hashCount = 4;
+            const string word = "word";
 
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
-            var bitArray = GetBitArray(spellingChecker);
+            spellingChecker.Add(word);
 
-            Assert.AreEqual(expectedSize, bitArray.Count);
+            Assert.IsTrue(spellingChecker.Check(word));
+        }
+
+        [TestMethod]
+        public void When_a_word_is_added_check_returns_true_for_that_word_regardless_of_casing()
+        {
+            const int wordCount = 32;
+            const int hashCount = 4;
+            const string word = "word";
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            spellingChecker.Add(word.ToUpper());
+
+            Assert.IsTrue(spellingChecker.Check(word));
         }
 
         [TestMethod]
@@ -129,34 +136,6 @@ namespace SpellCheckerTest
         }
 
         [TestMethod]
-        public void When_a_word_is_added_check_returns_true_for_that_word()
-        {
-            const int wordCount = 32;
-            const int hashCount = 4;
-            const string word = "word";
-
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
-
-            spellingChecker.Add(word);
-
-            Assert.IsTrue(spellingChecker.Check(word));
-        }
-
-        [TestMethod]
-        public void When_a_word_is_added_check_returns_true_for_that_word_regardless_of_casing()
-        {
-            const int wordCount = 32;
-            const int hashCount = 4;
-            const string word = "word";
-
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
-
-            spellingChecker.Add(word.ToUpper());
-
-            Assert.IsTrue(spellingChecker.Check(word));
-        }
-
-        [TestMethod]
         public void When_a_word_is_not_added_check_returns_false_for_that_word()
         {
             const int wordCount = 32;
@@ -166,20 +145,6 @@ namespace SpellCheckerTest
             var spellingChecker = new SpellingChecker(wordCount, hashCount);
 
             Assert.IsFalse(spellingChecker.Check(word));
-        }
-
-        [TestMethod]
-        public void When_a_word_is_added_check_returns_false_for_a_different_word()
-        {
-            const int wordCount = 32;
-            const int hashCount = 4;
-            const string word = "word";
-
-            var spellingChecker = new SpellingChecker(wordCount, hashCount);
-
-            spellingChecker.Add(word);
-
-            Assert.IsFalse(spellingChecker.Check(word + "a"));
         }
 
         [TestMethod]
@@ -197,6 +162,51 @@ namespace SpellCheckerTest
             }
 
             Assert.IsTrue(spellingChecker.Check(word));
+        }
+
+        [TestMethod]
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_hashes()
+        {
+            const int wordCount = 32;
+            const int hashCount = 6;
+
+            const int expectedSize = wordCount * hashCount * FillFactor;
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            var bitArray = GetBitArray(spellingChecker);
+
+            Assert.AreEqual(expectedSize, bitArray.Count);
+        }
+
+        [TestMethod]
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_different_number_of_words()
+        {
+            const int wordCount = 33;
+            const int hashCount = 4;
+
+            const int expectedSize = wordCount * hashCount * FillFactor;
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            var bitArray = GetBitArray(spellingChecker);
+
+            Assert.AreEqual(expectedSize, bitArray.Count);
+        }
+
+        [TestMethod]
+        public void When_the_spelling_checker_is_created_the_bit_array_is_sized_properly_for_a_word_count_a_power_of_two()
+        {
+            const int wordCount = 32;
+            const int hashCount = 4;
+
+            const int expectedSize = wordCount * hashCount * FillFactor;
+
+            var spellingChecker = new SpellingChecker(wordCount, hashCount);
+
+            var bitArray = GetBitArray(spellingChecker);
+
+            Assert.AreEqual(expectedSize, bitArray.Count);
         }
     }
 }
