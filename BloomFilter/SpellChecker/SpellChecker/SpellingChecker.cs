@@ -33,7 +33,7 @@ namespace SpellChecker
         {
             for (var i = 0; i < _hashCount; ++i)
             {
-                _bits.Set(ComputeHash(word, i), true);
+                _bits.Set(ComputeIndex(word, i), true);
             }
         }
 
@@ -41,7 +41,7 @@ namespace SpellChecker
         {
             for (var i = 0; i < _hashCount; ++i)
             {
-                var bit = ComputeHash(word, i);
+                var bit = ComputeIndex(word, i);
                 if (!_bits[bit])
                 {
                     return false;
@@ -56,7 +56,7 @@ namespace SpellChecker
             return wordCount * hashCount * FillFactor;
         }
 
-        private int ComputeHash(string word, int hashId)
+        private int ComputeIndex(string word, int hashId)
         {
             unchecked
             {
