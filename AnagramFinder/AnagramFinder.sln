@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramFinder", "AnagramFinder\AnagramFinder.csproj", "{28F2CFF4-DEF5-4BC0-B220-05E559A94B61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnagramFinder.Tests", "AnagramFinder.Tests\AnagramFinder.Tests.csproj", "{8DF9BFAB-9435-4538-97CC-84B53465F6BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28F2CFF4-DEF5-4BC0-B220-05E559A94B61} = {28F2CFF4-DEF5-4BC0-B220-05E559A94B61}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
