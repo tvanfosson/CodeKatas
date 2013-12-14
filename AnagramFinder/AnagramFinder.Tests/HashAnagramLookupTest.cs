@@ -49,6 +49,28 @@ namespace AnagramFinder.Tests
             Assert.AreEqual("snip", anagrams[0], true);
         }
 
+        [TestMethod]
+        public void When_the_word_list_contains_the_word_itself_as_the_only_anagram_only_the_word_is_returned()
+        {
+            var algorithm = _c.GetAlgorithm();
+
+            var anagrams = algorithm.FindAnagrams("snip", new[] { "snip", "foo", "bar" }).ToList();
+
+            Assert.AreEqual(1, anagrams.Count);
+            Assert.AreEqual("snip", anagrams[0], true);
+        }
+
+        [TestMethod]
+        public void When_the_word_list_contains_the_word_with_different_case_the_word_from_the_list_is_returned()
+        {
+            var algorithm = _c.GetAlgorithm();
+
+            var anagrams = algorithm.FindAnagrams("SNIP", new[] { "snip", "foo", "bar" }).ToList();
+
+            Assert.AreEqual(1, anagrams.Count);
+            Assert.AreEqual("snip", anagrams[0]);
+        }
+
         [TestInitialize]
         public void Init()
         {
