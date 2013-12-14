@@ -6,13 +6,13 @@ namespace AnagramFinder
 {
     public class SortAnagramLookup : IAnagramLookup
     {
+        private static bool IsCandidate(string candidate, int length)
+        {
+            return candidate.Length == length;
+        }
+
         protected virtual bool IsAnagram(string candidate, string word)
         {
-            if (word.Length != candidate.Length)
-            {
-                return false;
-            }
-
             var candidateLetters = candidate.ToCharArray().OrderBy(c => c).ToArray();
             var wordLetters = word.ToCharArray().OrderBy(c => c);
 
@@ -31,7 +31,7 @@ namespace AnagramFinder
                 throw new ArgumentNullException("wordList");
             }
 
-            return wordList.Union(new[] { word }, StringComparer.InvariantCultureIgnoreCase).Where(w => IsAnagram(w, word));
+            return wordList.Union(new[] { word }, StringComparer.InvariantCultureIgnoreCase).Where(w => IsCandidate(w, word.Length) && IsAnagram(w, word));
         }
     }
 }
