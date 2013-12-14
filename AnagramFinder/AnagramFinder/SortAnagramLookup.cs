@@ -6,7 +6,7 @@ namespace AnagramFinder
 {
     public class SortAnagramLookup : IAnagramLookup
     {
-        private static bool IsAnagram(string candidate, string word)
+        protected virtual bool IsAnagram(string candidate, string word)
         {
             if (word.Length != candidate.Length)
             {
@@ -19,7 +19,7 @@ namespace AnagramFinder
             return !wordLetters.Where((t, i) => char.ToLowerInvariant(candidateLetters[i]) != char.ToLowerInvariant(t)).Any();
         }
 
-        public IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
+        public virtual IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
         {
             if (string.IsNullOrEmpty(word))
             {
