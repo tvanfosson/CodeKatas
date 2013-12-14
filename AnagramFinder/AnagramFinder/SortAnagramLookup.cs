@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace AnagramFinder
 {
@@ -11,12 +12,9 @@ namespace AnagramFinder
             return candidate.Length == length;
         }
 
-        protected virtual bool IsAnagram(string candidate, string word)
+        protected string OrderedLetters(string word)
         {
-            var candidateLetters = candidate.ToCharArray().OrderBy(c => c).ToArray();
-            var wordLetters = word.ToCharArray().OrderBy(c => c);
-
-            return !wordLetters.Where((t, i) => char.ToLowerInvariant(candidateLetters[i]) != char.ToLowerInvariant(t)).Any();
+            return string.Join("", word.OrderBy(c => c));
         }
 
         public virtual IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
@@ -31,7 +29,31 @@ namespace AnagramFinder
                 throw new ArgumentNullException("wordList");
             }
 
-            return wordList.Union(new[] { word }, StringComparer.InvariantCultureIgnoreCase).Where(w => IsCandidate(w, word.Length) && IsAnagram(w, word));
+            var anagrams = new List<string> { word };
+            var orderedWord = OrderedLetters(word);
+
+            anagrams.AddRange(wordList.Where(w => IsCandidate(w, word.Length) && string.Equals(OrderedLetters(w),orderedWord,StringComparison.CurrentCultureIgnoreCase)));
+
+            return anagrams.Distinct(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public virtual Dictionary<string, IEnumerable<string>> FindAnagrams(IEnumerable<string> wordList)
+        {
+            var anagrams = new Dictionary<string, List<string>>(StringComparer.CurrentCultureIgnoreCase);
+            foreach (var word in wordList)
+            {
+                var key = OrderedLetters(word);
+                if (anagrams.ContainsKey(key))
+                {
+                    anagrams[key].Add(word);
+                }
+                else
+                {
+                    anagrams.Add(key, new List<string>());
+                }
+            }
+
+            return anagrams.Where(kv => kv.Value.Any()).ToDictionary(k => k.Key, v => v.Value.AsEnumerable());
         }
     }
 }
