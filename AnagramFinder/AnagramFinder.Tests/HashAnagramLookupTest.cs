@@ -44,7 +44,7 @@ namespace AnagramFinder.Tests
         {
             var algorithm = _c.GetAlgorithm();
 
-            var anagrams = algorithm.FindAnagrams("snip", new [] { "word", "foo", "bar" }).ToList();
+            var anagrams = algorithm.FindAnagrams("snip", new[] { "word", "foo", "bar" }).ToList();
 
             Assert.AreEqual(1, anagrams.Count);
             Assert.AreEqual("snip", anagrams[0], true);
@@ -83,6 +83,19 @@ namespace AnagramFinder.Tests
             CollectionAssert.AreEquivalent(new List<string> { "SNIP", "pins" }, anagrams);
         }
 
+        [TestMethod]
+        public void When_the_word_list_contains_multiple_anagrams_both_all_are_returned()
+        {
+            var algorithm = _c.GetAlgorithm();
+
+            var anagramList = _c.GetAnagramList();
+
+            var anagrams = algorithm.FindAnagrams(anagramList[0], anagramList).ToList();
+
+            Assert.AreEqual(anagramList.Count, anagrams.Count);
+            CollectionAssert.AreEquivalent(anagramList, anagrams);
+        }
+
         [TestInitialize]
         public void Init()
         {
@@ -95,6 +108,27 @@ namespace AnagramFinder.Tests
             {
                 return new HashAnagramLookup();
             }
+
+            public List<string> GetAnagramList()
+            {
+                return new List<string>
+                {
+                    "anestri",
+                    "asterin",
+                    "eranist",
+                    "nastier",
+                    "ratines",
+                    "resiant",
+                    "restain",
+                    "retains",
+                    "retinas",
+                    "retsina",
+                    "sainter",
+                    "stainer",
+                    "starnie",
+                    "stearin"
+                };
+            } 
         }
     }
 }

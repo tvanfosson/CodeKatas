@@ -8,9 +8,15 @@ namespace AnagramFinder
     {
         private static bool IsAnagram(string candidate, string word)
         {
-            var reverse = string.Join("", candidate.Reverse());
-            var isAnagram = string.Equals(word, candidate, StringComparison.OrdinalIgnoreCase) || string.Equals(word, reverse, StringComparison.OrdinalIgnoreCase);
-            return isAnagram;
+            if (word.Length != candidate.Length)
+            {
+                return false;
+            }
+
+            var candidateLetters = candidate.ToCharArray().OrderBy(c => c).ToArray();
+            var wordLetters = word.ToCharArray().OrderBy(c => c);
+
+            return !wordLetters.Where((t, i) => char.ToLowerInvariant(candidateLetters[i]) != char.ToLowerInvariant(t)).Any();
         }
 
         public IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
@@ -25,7 +31,7 @@ namespace AnagramFinder
                 throw new ArgumentNullException("wordList");
             }
 
-            return wordList.Union(new[] { word }, StringComparer.OrdinalIgnoreCase).Where(w => IsAnagram(w, word));
+            return wordList.Union(new[] { word }, StringComparer.InvariantCultureIgnoreCase).Where(w => IsAnagram(w, word));
         }
     }
 }
