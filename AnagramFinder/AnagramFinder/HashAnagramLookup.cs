@@ -12,6 +12,11 @@ namespace AnagramFinder
                 throw new ArgumentNullException("word");
             }
 
+            if (wordList == null)
+            {
+                throw new ArgumentNullException("wordList");
+            }
+
             throw new NotImplementedException();
         }
     }
