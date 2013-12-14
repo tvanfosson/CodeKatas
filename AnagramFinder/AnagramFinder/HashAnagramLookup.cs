@@ -6,6 +6,13 @@ namespace AnagramFinder
 {
     public class HashAnagramLookup : IAnagramLookup
     {
+        private static bool IsAnagram(string candidate, string word)
+        {
+            var reverse = string.Join("", candidate.Reverse());
+            var isAnagram = string.Equals(word, candidate, StringComparison.OrdinalIgnoreCase) || string.Equals(word, reverse, StringComparison.OrdinalIgnoreCase);
+            return isAnagram;
+        }
+
         public IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
         {
             if (string.IsNullOrEmpty(word))
@@ -18,7 +25,7 @@ namespace AnagramFinder
                 throw new ArgumentNullException("wordList");
             }
 
-            return wordList.Union(new[] { word }, StringComparer.OrdinalIgnoreCase).Where(w => string.Equals(w, word, StringComparison.OrdinalIgnoreCase));
+            return wordList.Union(new[] { word }, StringComparer.OrdinalIgnoreCase).Where(w => IsAnagram(w, word));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -69,6 +70,17 @@ namespace AnagramFinder.Tests
 
             Assert.AreEqual(1, anagrams.Count);
             Assert.AreEqual("snip", anagrams[0]);
+        }
+
+        [TestMethod]
+        public void When_the_word_list_contains_an_anagram_both_the_word_and_the_anagram_are_returned()
+        {
+            var algorithm = _c.GetAlgorithm();
+
+            var anagrams = algorithm.FindAnagrams("SNIP", new[] { "pins", "foo", "bar" }).ToList();
+
+            Assert.AreEqual(2, anagrams.Count);
+            CollectionAssert.AreEquivalent(new List<string> { "SNIP", "pins" }, anagrams);
         }
 
         [TestInitialize]
