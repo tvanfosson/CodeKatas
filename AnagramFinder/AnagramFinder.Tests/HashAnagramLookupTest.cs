@@ -109,6 +109,18 @@ namespace AnagramFinder.Tests
             Assert.AreEqual(firstHash, secondHash);
         }
 
+        [TestMethod]
+        public void When_two_word_contain_the_same_letters_they_hash_to_the_same_values_regardless_of_case()
+        {
+            var algorithm = _c.GetAlgorithm();
+            var computeHashMethod = typeof(HashAnagramLookup).GetMethod("ComputeHash", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var firstHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "word" });
+            var secondHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "WORD" });
+
+            Assert.AreEqual(firstHash, secondHash);
+        }
+
         [TestInitialize]
         public void Init()
         {
