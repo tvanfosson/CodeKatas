@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AnagramFinder.Tests
@@ -95,30 +94,6 @@ namespace AnagramFinder.Tests
 
             Assert.AreEqual(anagramList.Count, anagrams.Count);
             CollectionAssert.AreEquivalent(anagramList, anagrams);
-        }
-
-        [TestMethod]
-        public void When_two_word_contain_the_same_letters_they_hash_to_the_same_values()
-        {
-            var algorithm = _c.GetAlgorithm();
-            var computeHashMethod = typeof(HashAnagramLookup).GetMethod("ComputeHash", BindingFlags.NonPublic|BindingFlags.Instance);
-
-            var firstHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "word" });
-            var secondHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "drow" });
-
-            Assert.AreEqual(firstHash, secondHash);
-        }
-
-        [TestMethod]
-        public void When_two_word_contain_the_same_letters_they_hash_to_the_same_values_regardless_of_case()
-        {
-            var algorithm = _c.GetAlgorithm();
-            var computeHashMethod = typeof(HashAnagramLookup).GetMethod("ComputeHash", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            var firstHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "word" });
-            var secondHash = (int)computeHashMethod.Invoke(algorithm, new object[] { "WORD" });
-
-            Assert.AreEqual(firstHash, secondHash);
         }
 
         [TestInitialize]

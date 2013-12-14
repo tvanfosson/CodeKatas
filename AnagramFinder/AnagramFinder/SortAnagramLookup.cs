@@ -6,7 +6,7 @@ namespace AnagramFinder
 {
     public class SortAnagramLookup : IAnagramLookup
     {
-        private static bool IsCandidate(string candidate, int length)
+        protected bool IsCandidate(string candidate, int length)
         {
             return candidate.Length == length;
         }

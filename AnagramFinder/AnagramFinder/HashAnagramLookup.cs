@@ -1,21 +1,27 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AnagramFinder
 {
     public class HashAnagramLookup : SortAnagramLookup
     {
-        private int ComputeHash(string word)
+        private static bool AreHashEquivalent(HashedWord candidate, HashedWord word)
         {
-            unchecked
-            {
-                return word.Aggregate(0, (hash, c) => hash + char.ToLowerInvariant(c));
-            }
+            return candidate.GetHashCode() == word.GetHashCode();
         }
 
-        protected override bool IsAnagram(string candidate, string word)
+        public override IEnumerable<string> FindAnagrams(string word, IEnumerable<string> wordList)
         {
-            return ComputeHash(candidate) == ComputeHash(word) && base.IsAnagram(candidate, word);
+            var hashedWords = wordList.Union(new[] { word }, StringComparer.InvariantCultureIgnoreCase).Select(w => new HashedWord(w)).ToList();
+            var hashedWord = new HashedWord(word);
+
+            return hashedWords.Where(w => IsCandidate(w.Word, word.Length) 
+                                            && AreHashEquivalent(w, hashedWord) 
+                                            && base.IsAnagram(w.Word, word))
+                              .Select(w => w.Word);
         }
+
     }
 }
