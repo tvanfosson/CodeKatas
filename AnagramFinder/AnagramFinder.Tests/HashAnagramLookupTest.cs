@@ -38,6 +38,17 @@ namespace AnagramFinder.Tests
             Assert.AreEqual("word", anagrams[0], true);
         }
 
+        [TestMethod]
+        public void When_the_word_list_contains_no_anagrams_only_the_word_is_returned()
+        {
+            var algorithm = _c.GetAlgorithm();
+
+            var anagrams = algorithm.FindAnagrams("snip", new [] { "word", "foo", "bar" }).ToList();
+
+            Assert.AreEqual(1, anagrams.Count);
+            Assert.AreEqual("snip", anagrams[0], true);
+        }
+
         [TestInitialize]
         public void Init()
         {

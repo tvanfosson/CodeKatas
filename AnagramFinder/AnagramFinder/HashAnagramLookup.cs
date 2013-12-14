@@ -23,7 +23,7 @@ namespace AnagramFinder
                 return new[] { word };
             }
 
-            throw new NotImplementedException();
+            return wordList.Union(new[] {word}).Where(w => string.Equals(w, word));
         }
     }
 }
