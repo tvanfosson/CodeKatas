@@ -88,7 +88,7 @@ namespace AnagramFinder.Tests
         {
             var algorithm = _c.GetAlgorithm();
 
-            var anagramList = _c.GetAnagramList();
+            var anagramList = WordListHelper.GetAnagramList();
 
             var anagrams = algorithm.FindAnagrams(anagramList[0], anagramList).ToList();
 
@@ -108,27 +108,6 @@ namespace AnagramFinder.Tests
             {
                 return new HashAnagramLookup();
             }
-
-            public List<string> GetAnagramList()
-            {
-                return new List<string>
-                {
-                    "anestri",
-                    "asterin",
-                    "eranist",
-                    "nastier",
-                    "ratines",
-                    "resiant",
-                    "restain",
-                    "retains",
-                    "retinas",
-                    "retsina",
-                    "sainter",
-                    "stainer",
-                    "starnie",
-                    "stearin"
-                };
-            } 
         }
     }
 }
