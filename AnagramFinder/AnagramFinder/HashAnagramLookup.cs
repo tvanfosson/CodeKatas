@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AnagramFinder
 {
@@ -15,6 +16,11 @@ namespace AnagramFinder
             if (wordList == null)
             {
                 throw new ArgumentNullException("wordList");
+            }
+
+            if (!wordList.Any())
+            {
+                return new[] { word };
             }
 
             throw new NotImplementedException();
