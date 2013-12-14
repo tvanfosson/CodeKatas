@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AnagramFinder
 {
-    public class HashAnagramLookup : IAnagramLookup
+    public class SortAnagramLookup : IAnagramLookup
     {
         private static bool IsAnagram(string candidate, string word)
         {

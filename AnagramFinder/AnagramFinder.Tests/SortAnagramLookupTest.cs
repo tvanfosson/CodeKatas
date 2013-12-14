@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AnagramFinder.Tests
 {
     [TestClass]
-    public class HashAnagramLookupTest
+    public class SortAnagramLookupTest
     {
-        private HashAnagramLookupTestContext _c;
+        private SortAnagramLookupTestContext _c;
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -99,14 +99,14 @@ namespace AnagramFinder.Tests
         [TestInitialize]
         public void Init()
         {
-            _c = new HashAnagramLookupTestContext();
+            _c = new SortAnagramLookupTestContext();
         }
 
-        private class HashAnagramLookupTestContext
+        private class SortAnagramLookupTestContext
         {
             public IAnagramLookup GetAlgorithm()
             {
-                return new HashAnagramLookup();
+                return new SortAnagramLookup();
             }
 
             public List<string> GetAnagramList()
