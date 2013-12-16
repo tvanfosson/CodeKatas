@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HashAnagramLookup.cs" />
     <Compile Include="SortAnagramLookup.cs" />
     <Compile Include="IAnagramLookup.cs" />
     <Compile Include="Program.cs" />

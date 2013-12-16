@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="HashAnagramLookupTest.cs" />
     <Compile Include="SortAnagramLookupTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordListHelper.cs" />

@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AnagramFinder.Tests
 {
     [TestClass]
-    public class SortAnagramLookupTest
+    public class HashAnagramLookupTest
     {
-        private SortAnagramLookupTestContext _c;
+        private HashAnagramLookupTestContext _c;
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -110,7 +110,7 @@ namespace AnagramFinder.Tests
         {
             var algorithm = _c.GetAlgorithm();
 
-            var anagrams = algorithm.FindAnagrams( new[] { "snip", "pins", "foo", "bar" });
+            var anagrams = algorithm.FindAnagrams(new[] { "snip", "pins", "foo", "bar" });
 
             Assert.AreEqual(1, anagrams.Count);
             CollectionAssert.AreEquivalent(new List<string> { "pins" }, anagrams["snip"].ToList());
@@ -131,14 +131,14 @@ namespace AnagramFinder.Tests
         [TestInitialize]
         public void Init()
         {
-            _c = new SortAnagramLookupTestContext();
+            _c = new HashAnagramLookupTestContext();
         }
 
-        private class SortAnagramLookupTestContext
+        private class HashAnagramLookupTestContext
         {
             public IAnagramLookup GetAlgorithm()
             {
-                return new SortAnagramLookup();
+                return new HashAnagramLookup();
             }
         }
     }
