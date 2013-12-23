@@ -59,5 +59,17 @@ namespace Math.Lib.Test
 
             Assert.AreEqual(actual, expected);
         }
+
+        [TestMethod]
+        public void When_the_numbers_have_multiple_common_factors_the_largest_is_returned()
+        {
+            const int expected = 17 * 7 * 3 * 2;
+            const int a = 3 * expected;
+            const int b = 7 * expected;
+            var calculator = new GcdCalculator();
+            var actual = calculator.GreatestCommonDenominator(a, b);
+
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
