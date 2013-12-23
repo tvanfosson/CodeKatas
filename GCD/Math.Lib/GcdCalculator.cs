@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace Math.Lib
 {
@@ -12,6 +11,9 @@ namespace Math.Lib
             {
                 throw new ArgumentOutOfRangeException("a");
             }
+
+            a = System.Math.Abs(a);
+            b = System.Math.Abs(b);
 
             while (a != b)
             {
