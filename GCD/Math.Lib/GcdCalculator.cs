@@ -8,6 +8,11 @@ namespace Math.Lib
 
         public int GreatestCommonDenominator(int a, int b)
         {
+            if (a == 0 && b == 0)
+            {
+                throw new ArgumentOutOfRangeException("a");
+            }
+
             while (a != b)
             {
                 if (a > b)

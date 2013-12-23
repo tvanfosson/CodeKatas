@@ -7,6 +7,14 @@ namespace Math.Lib.Test
     public class GcdCalculatorTest
     {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void When_both_numbers_are_zero_an_exception_is_thrown()
+        {
+            var calculator = new GcdCalculator();
+            calculator.GreatestCommonDenominator(0, 0);
+        }
+
+        [TestMethod]
         public void When_the_numbers_are_the_same_the_GCD_value_is_the_number_itself()
         {
             const int expected = 53;
