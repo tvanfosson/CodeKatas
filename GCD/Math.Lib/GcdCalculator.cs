@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Math.Lib
+namespace GCD.MathLib
 {
     public class GcdCalculator : IGcdCalculator
     {

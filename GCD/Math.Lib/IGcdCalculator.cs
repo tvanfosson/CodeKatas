@@ -1,4 +1,4 @@
-﻿namespace Math.Lib
+﻿namespace GCD.MathLib
 {
     public interface IGcdCalculator
     {

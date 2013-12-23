@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Math.Lib.Test
+namespace GCD.MathLib.Test
 {
     [TestClass]
     public class GcdCalculatorTest

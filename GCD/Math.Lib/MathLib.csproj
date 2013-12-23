@@ -7,8 +7,8 @@
     <ProjectGuid>{B40989C0-E0C4-4D3C-84C0-097A96748332}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Math.Lib</RootNamespace>
-    <AssemblyName>Math.Lib</AssemblyName>
+    <RootNamespace>GCD.MathLib</RootNamespace>
+    <AssemblyName>MathLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

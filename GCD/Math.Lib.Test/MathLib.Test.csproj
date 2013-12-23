@@ -6,8 +6,8 @@
     <ProjectGuid>{E7DF8739-6063-4E74-9479-2A42E2A2184F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Math.Lib.Test</RootNamespace>
-    <AssemblyName>Math.Lib.Test</AssemblyName>
+    <RootNamespace>GCD.MathLib.Test</RootNamespace>
+    <AssemblyName>GCD.MathLib.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Math.Lib\Math.Lib.csproj">
+    <ProjectReference Include="..\Math.Lib\MathLib.csproj">
       <Project>{b40989c0-e0c4-4d3c-84c0-097a96748332}</Project>
-      <Name>Math.Lib</Name>
+      <Name>MathLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
