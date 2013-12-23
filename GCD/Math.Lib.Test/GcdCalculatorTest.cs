@@ -15,5 +15,25 @@ namespace Math.Lib.Test
 
             Assert.AreEqual(actual, expected);
         }
+
+        [TestMethod]
+        public void When_the_first_number_is_a_multiple_of_the_second_the_second_is_returned()
+        {
+            const int expected = 7;
+            var calculator = new GcdCalculator();
+            var actual = calculator.GreatestCommonDenominator(expected * 3, expected);
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void When_the_second_number_is_a_multiple_of_the_first_the_first_is_returned()
+        {
+            const int expected = 7;
+            var calculator = new GcdCalculator();
+            var actual = calculator.GreatestCommonDenominator(expected, expected * 3);
+
+            Assert.AreEqual(actual, expected);
+        }
     }
 }

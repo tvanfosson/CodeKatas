@@ -4,9 +4,10 @@ namespace Math.Lib
 {
     public class GcdCalculator : IGcdCalculator
     {
+        
         public int GreatestCommonDenominator(int a, int b)
         {
-            return a;
+            return a > b ? b : a;
         }
     }
 }
