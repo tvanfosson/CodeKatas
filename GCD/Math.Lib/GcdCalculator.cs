@@ -8,18 +8,21 @@ namespace Math.Lib
 
         public int GreatestCommonDenominator(int a, int b)
         {
-            if (a == b)
+            while (a != b)
             {
-                return a;
+                if (a > b)
+                {
+                    a = a - b;
+                }
+                else
+                {
+                    var temp = b;
+                    b = a;
+                    a = temp - a;
+                }
             }
-            else if (a - b > 0)
-            {
-                return GreatestCommonDenominator(a - b, b);
-            }
-            else
-            {
-                return GreatestCommonDenominator(b - a, a);
-            }
+
+            return b;
         }
     }
 }
