@@ -35,5 +35,29 @@ namespace Math.Lib.Test
 
             Assert.AreEqual(actual, expected);
         }
+
+        [TestMethod]
+        public void When_the_numbers_share_no_factors_other_than_one_one_is_returned()
+        {
+            const int expected = 1;
+            const int a = 3;
+            const int b = 7;
+            var calculator = new GcdCalculator();
+            var actual = calculator.GreatestCommonDenominator(a, b);
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void When_the_numbers_have_a_GCD_greater_than_one_it_is_returned()
+        {
+            const int expected = 17;
+            const int a = 3 * expected;
+            const int b = 7 * expected;
+            var calculator = new GcdCalculator();
+            var actual = calculator.GreatestCommonDenominator(a, b);
+
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
