@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCD", "GCD\GCD.csproj", "{7FCCB4EF-2E21-4E8D-B29E-81184A92927B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Lib", "Math.Lib\Math.Lib.csproj", "{B40989C0-E0C4-4D3C-84C0-097A96748332}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math.Lib.Test", "Math.Lib.Test\Math.Lib.Test.csproj", "{E7DF8739-6063-4E74-9479-2A42E2A2184F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FCCB4EF-2E21-4E8D-B29E-81184A92927B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FCCB4EF-2E21-4E8D-B29E-81184A92927B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FCCB4EF-2E21-4E8D-B29E-81184A92927B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FCCB4EF-2E21-4E8D-B29E-81184A92927B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40989C0-E0C4-4D3C-84C0-097A96748332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40989C0-E0C4-4D3C-84C0-097A96748332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40989C0-E0C4-4D3C-84C0-097A96748332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40989C0-E0C4-4D3C-84C0-097A96748332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7DF8739-6063-4E74-9479-2A42E2A2184F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7DF8739-6063-4E74-9479-2A42E2A2184F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7DF8739-6063-4E74-9479-2A42E2A2184F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7DF8739-6063-4E74-9479-2A42E2A2184F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
