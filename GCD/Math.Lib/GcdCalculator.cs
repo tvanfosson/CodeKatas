@@ -6,7 +6,7 @@ namespace Math.Lib
     {
         public int GreatestCommonDenominator(int a, int b)
         {
-            throw new NotImplementedException();
+            return a;
         }
     }
 }
